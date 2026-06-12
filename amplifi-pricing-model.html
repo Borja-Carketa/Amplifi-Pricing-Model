@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AmpliFI Pricing Model</title>
+<style>
+:root {
+  --color-background-primary: #fff;
+  --color-background-secondary: #f5f5f4;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #6b6b6b;
+  --color-border-tertiary: rgba(0,0,0,0.12);
+  --border-radius-lg: 12px;
+  --border-radius-md: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: #1e1e1e;
+    --color-background-secondary: #2a2a2a;
+    --color-text-primary: #e5e5e5;
+    --color-text-secondary: #a0a0a0;
+    --color-border-tertiary: rgba(255,255,255,0.12);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--color-background-secondary); color: var(--color-text-primary); }
+button { font-family: inherit; font-size: 13px; background: transparent; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 6px 14px; color: var(--color-text-secondary); cursor: pointer; }
+button:hover { background: var(--color-background-secondary); }
+.ic{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:12px}
+.ic.ac{border-top:2.5px solid #3DA35D}
+.tl{font-size:11px;font-weight:500;color:#3DA35D;letter-spacing:.08em;text-transform:uppercase;margin:0 0 4px}
+.ts{font-size:11px;color:var(--color-text-secondary);margin:0 0 12px}
+.sr{margin-bottom:14px}
+.sr:last-child{margin-bottom:0}
+.shd{display:flex;justify-content:space-between;margin-bottom:5px}
+.sl{font-size:12px;color:var(--color-text-secondary)}
+.sv{font-size:12px;font-weight:500;color:#3DA35D}
+.sft{display:flex;justify-content:space-between;margin-top:3px}
+.sft span{font-size:11px;color:var(--color-text-secondary)}
+input[type=range]{width:100%;accent-color:#3DA35D}
+.oc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-bottom:12px}
+.ol{font-size:11px;font-weight:500;color:#3DA35D;letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.sp{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 8px;text-align:center}
+.spv{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.spl{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.hero{background:#3DA35D;border-radius:var(--border-radius-lg);padding:16px 20px;margin-bottom:12px;text-align:center}
+.hs{font-size:11px;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.hm{font-size:38px;font-weight:500;color:#fff;line-height:1;margin-bottom:12px}
+.hr{display:flex;justify-content:center;gap:40px;border-top:1px solid rgba(255,255,255,.2);padding-top:12px}
+.hst .hv{font-size:17px;font-weight:500;color:#fff}
+.hst .hl{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.br{margin-bottom:12px}
+.br:last-child{margin-bottom:0}
+.bhd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.bn{font-size:12px;color:var(--color-text-primary)}
+.bp{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:3px;padding:1px 5px;margin-left:5px}
+.bv{font-size:12px;font-weight:500;color:var(--color-text-primary);white-space:nowrap;margin-left:8px}
+.bt{background:var(--color-background-secondary);border-radius:4px;height:5px}
+.bf{background:#3DA35D;border-radius:4px;height:5px;transition:width .15s ease}
+.bft{display:flex;justify-content:space-between;margin-top:3px}
+.bft span{font-size:11px;color:var(--color-text-secondary)}
+.at{width:100%;border-collapse:collapse;font-size:12px}
+.at th{text-align:left;font-size:11px;color:var(--color-text-secondary);font-weight:400;padding-bottom:8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.at th:not(:first-child){text-align:right}
+.at td{color:var(--color-text-primary);padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.at td:not(:first-child){text-align:right}
+.at .tot td{font-weight:500;color:#3DA35D;padding-top:10px;border-bottom:none}
+.at .tot td:first-child{color:var(--color-text-primary)}
+</style>
+</head>
+<body>
+<div style="max-width:900px;margin:2rem auto;padding:1.25rem">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:3px;height:26px;background:#3DA35D;border-radius:2px"></div>
+      <div>
+        <div style="font-size:16px;font-weight:500;color:var(--color-text-primary)">AmpliFI pricing model</div>
+        <div style="font-size:12px;color:var(--color-text-secondary)">Three-tier structure · Agent → Dealer → Admin/TPA</div>
+      </div>
+    </div>
+    <button id="resetBtn">Reset to defaults</button>
+  </div>
+
+  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start">
+
+    <div>
+      <div class="ic">
+        <div class="tl">Volume assumptions</div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Agents / agencies</span><span class="sv" id="v_agents">100</span></div>
+          <input type="range" id="s_agents" min="1" max="500" step="1" value="100">
+          <div class="sft"><span>1</span><span>500</span></div>
+        </div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Rooftops per agent</span><span class="sv" id="v_rooftops">20</span></div>
+          <input type="range" id="s_rooftops" min="1" max="100" step="1" value="20">
+          <div class="sft"><span>1</span><span>100</span></div>
+        </div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Contracts / rooftop / month</span><span class="sv" id="v_contracts">20</span></div>
+          <input type="range" id="s_contracts" min="1" max="100" step="1" value="20">
+          <div class="sft"><span>1</span><span>100</span></div>
+        </div>
+      </div>
+
+      <div class="ic ac">
+        <div class="tl">Tier 1 · E-rating & e-contracting</div>
+        <div class="ts">Per rooftop / month · billed to agent</div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Price per rooftop / month</span><span class="sv" id="v_t1Price">$29</span></div>
+          <input type="range" id="s_t1Price" min="10" max="99" step="1" value="29">
+          <div class="sft"><span>$10</span><span>$99</span></div>
+        </div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Rooftop adoption</span><span class="sv" id="v_t1Rate">100%</span></div>
+          <input type="range" id="s_t1Rate" min="0" max="100" step="1" value="100">
+          <div class="sft"><span>0%</span><span>100%</span></div>
+        </div>
+      </div>
+
+      <div class="ic ac">
+        <div class="tl">Tier 2 · Menu system upgrade</div>
+        <div class="ts">Per rooftop / month · billed to dealership</div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Price per rooftop / month</span><span class="sv" id="v_t2Price">$60</span></div>
+          <input type="range" id="s_t2Price" min="10" max="199" step="1" value="60">
+          <div class="sft"><span>$10</span><span>$199</span></div>
+        </div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Rooftop upgrade rate</span><span class="sv" id="v_t2Rate">50%</span></div>
+          <input type="range" id="s_t2Rate" min="0" max="100" step="1" value="50">
+          <div class="sft"><span>0%</span><span>100%</span></div>
+        </div>
+      </div>
+
+      <div class="ic ac">
+        <div class="tl">Tier 3 · Per-contract admin fee</div>
+        <div class="ts">Per contract written · billed to admin / TPA</div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Fee per contract</span><span class="sv" id="v_t3Price">$10</span></div>
+          <input type="range" id="s_t3Price" min="1" max="25" step="0.5" value="10">
+          <div class="sft"><span>$1</span><span>$25</span></div>
+        </div>
+        <div class="sr">
+          <div class="shd"><span class="sl">Contract capture rate</span><span class="sv" id="v_t3Rate">50%</span></div>
+          <input type="range" id="s_t3Rate" min="0" max="100" step="1" value="50">
+          <div class="sft"><span>0%</span><span>100%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sgrid">
+        <div class="sp"><div class="spv" id="o_rt">2,000</div><div class="spl">Rooftops</div></div>
+        <div class="sp"><div class="spv" id="o_ct">40,000</div><div class="spl">Contracts/mo</div></div>
+        <div class="sp"><div class="spv" id="o_ag">100</div><div class="spl">Agents</div></div>
+      </div>
+
+      <div class="hero">
+        <div class="hs">Monthly recurring revenue</div>
+        <div class="hm" id="o_mrr">$318.0K</div>
+        <div class="hr">
+          <div class="hst"><div class="hv" id="o_arr">$3.82M</div><div class="hl">ARR</div></div>
+          <div class="hst"><div class="hv" id="o_pa">$3.2K</div><div class="hl">Per agent / mo</div></div>
+        </div>
+      </div>
+
+      <div class="oc">
+        <div class="ol">Revenue breakdown</div>
+        <div class="br">
+          <div class="bhd">
+            <div><span class="bn">Tier 1 · E-rating & e-contracting</span><span class="bp">Agent</span></div>
+            <span class="bv" id="o_t1v">$58.0K/mo</span>
+          </div>
+          <div class="bt"><div class="bf" id="b_t1" style="width:18.2%"></div></div>
+          <div class="bft"><span id="o_t1d">2,000 rooftops × $29/mo</span><span id="o_t1p">18.2%</span></div>
+        </div>
+        <div class="br">
+          <div class="bhd">
+            <div><span class="bn">Tier 2 · Menu system</span><span class="bp">Dealer</span></div>
+            <span class="bv" id="o_t2v">$60.0K/mo</span>
+          </div>
+          <div class="bt"><div class="bf" id="b_t2" style="width:18.9%"></div></div>
+          <div class="bft"><span id="o_t2d">1,000 rooftops × $60/mo</span><span id="o_t2p">18.9%</span></div>
+        </div>
+        <div class="br">
+          <div class="bhd">
+            <div><span class="bn">Tier 3 · Per-contract fee</span><span class="bp">Admin/TPA</span></div>
+            <span class="bv" id="o_t3v">$200.0K/mo</span>
+          </div>
+          <div class="bt"><div class="bf" id="b_t3" style="width:62.9%"></div></div>
+          <div class="bft"><span id="o_t3d">20,000 contracts × $10/contract</span><span id="o_t3p">62.9%</span></div>
+        </div>
+      </div>
+
+      <div class="oc">
+        <div class="ol">Annual summary</div>
+        <table class="at">
+          <thead><tr><th>Source</th><th>Payer</th><th>MRR</th><th>ARR</th></tr></thead>
+          <tbody>
+            <tr><td>Tier 1 — Agent SaaS</td><td style="color:var(--color-text-secondary)">Agent</td><td id="a1m">$58.0K</td><td id="a1a">$696.0K</td></tr>
+            <tr><td>Tier 2 — Dealer SaaS</td><td style="color:var(--color-text-secondary)">Dealer</td><td id="a2m">$60.0K</td><td id="a2a">$720.0K</td></tr>
+            <tr><td>Tier 3 — Admin/TPA fee</td><td style="color:var(--color-text-secondary)">Admin/TPA</td><td id="a3m">$200.0K</td><td id="a3a">$2.40M</td></tr>
+          </tbody>
+          <tfoot><tr class="tot"><td>Total</td><td></td><td id="aTm">$318.0K</td><td id="aTa">$3.82M</td></tr></tfoot>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const DEFS={agents:100,rooftops:20,contracts:20,t1Price:29,t1Rate:100,t2Price:60,t2Rate:50,t3Price:10,t3Rate:50};
+let s={...DEFS};
+function fM(n){if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(1)+'K';return'$'+Math.round(n).toLocaleString();}
+function fN(n){return Math.round(n).toLocaleString();}
+function fP(n){return n%1===0?'$'+n:'$'+n.toFixed(1);}
+function calc(){
+  const tR=s.agents*s.rooftops,tC=tR*s.contracts;
+  const t1R=tR*s.t1Rate/100,t2R=tR*s.t2Rate/100,t3C=tC*s.t3Rate/100;
+  const t1M=t1R*s.t1Price,t2M=t2R*s.t2Price,t3M=t3C*s.t3Price,tM=t1M+t2M+t3M;
+  return{tR,tC,t1R,t2R,t3C,t1M,t2M,t3M,tM,tA:tM*12,pA:s.agents>0?tM/s.agents:0};
+}
+function set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function setW(id,p){const e=document.getElementById(id);if(e)e.style.width=Math.max(0,p).toFixed(1)+'%';}
+function update(){
+  const c=calc();
+  set('o_rt',fN(c.tR));set('o_ct',fN(c.tC));set('o_ag',fN(s.agents));
+  set('o_mrr',fM(c.tM));set('o_arr',fM(c.tA));set('o_pa',fM(c.pA));
+  const tot=c.tM>0?c.tM:1;
+  const p1=c.t1M/tot*100,p2=c.t2M/tot*100,p3=c.t3M/tot*100;
+  set('o_t1v',fM(c.t1M)+'/mo');set('o_t1d',fN(c.t1R)+' rooftops × '+fP(s.t1Price)+'/mo');set('o_t1p',p1.toFixed(1)+'%');setW('b_t1',p1);
+  set('o_t2v',fM(c.t2M)+'/mo');set('o_t2d',fN(c.t2R)+' rooftops × '+fP(s.t2Price)+'/mo');set('o_t2p',p2.toFixed(1)+'%');setW('b_t2',p2);
+  set('o_t3v',fM(c.t3M)+'/mo');set('o_t3d',fN(Math.round(c.t3C))+' contracts × '+fP(s.t3Price)+'/contract');set('o_t3p',p3.toFixed(1)+'%');setW('b_t3',p3);
+  set('a1m',fM(c.t1M));set('a1a',fM(c.t1M*12));
+  set('a2m',fM(c.t2M));set('a2a',fM(c.t2M*12));
+  set('a3m',fM(c.t3M));set('a3a',fM(c.t3M*12));
+  set('aTm',fM(c.tM));set('aTa',fM(c.tA));
+}
+const fmt={
+  agents:v=>fN(v),rooftops:v=>fN(v),contracts:v=>fN(v),
+  t1Price:v=>fP(v),t1Rate:v=>v+'%',
+  t2Price:v=>fP(v),t2Rate:v=>v+'%',
+  t3Price:v=>fP(v),t3Rate:v=>v+'%',
+};
+Object.keys(DEFS).forEach(k=>{
+  const el=document.getElementById('s_'+k);
+  if(!el)return;
+  el.addEventListener('input',e=>{
+    s[k]=Number(e.target.value);
+    set('v_'+k,fmt[k](s[k]));
+    update();
+  });
+});
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  s={...DEFS};
+  Object.keys(DEFS).forEach(k=>{
+    const el=document.getElementById('s_'+k);
+    if(el)el.value=s[k];
+    set('v_'+k,fmt[k](s[k]));
+  });
+  update();
+});
+update();
+</script>
+</body>
+</html>
